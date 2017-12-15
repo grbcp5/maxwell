@@ -16,8 +16,9 @@
 bool isEmpty( const bitboard &board, const uint64 offset ) {
 
   for ( uint8 piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
-    if ( isOccupiedBy( board, offset, piece ))
+    if ( isOccupiedBy( board, offset, piece )) {
       return false;
+    }
   }
 
   return true;
@@ -26,8 +27,9 @@ bool isEmpty( const bitboard &board, const uint64 offset ) {
 bool isWhiteOccupied( const bitboard &board, const uint64 offset ) {
 
   for ( uint8 piece = WHITE_MIN; piece < BLACK_MIN; piece++ ) {
-    if ( isOccupiedBy( board, offset, piece ))
+    if ( isOccupiedBy( board, offset, piece )) {
       return false;
+    }
   }
 
   return true;
@@ -37,8 +39,9 @@ bool isWhiteOccupied( const bitboard &board, const uint64 offset ) {
 bool isBlackOccupied( const bitboard &board, const uint64 offset ) {
 
   for ( uint8 piece = BLACK_MIN; piece < N_PIECE_TYPES; piece++ ) {
-    if ( isOccupiedBy( board, offset, piece ))
+    if ( isOccupiedBy( board, offset, piece )) {
       return false;
+    }
   }
 
   return true;
@@ -48,8 +51,9 @@ bool isBlackOccupied( const bitboard &board, const uint64 offset ) {
 piece_t getPiece( const bitboard &board, const uint64 offset ) {
 
   for ( uint8 piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
-    if ( isOccupiedBy( board, offset, piece ))
+    if ( isOccupiedBy( board, offset, piece )) {
       return ( piece_t ) piece;
+    }
   }
 
   return NOTHING;
@@ -210,6 +214,35 @@ GameState createBoard( const char *fen ) throw( Error ) {
   }
 
   return result;
+}
+
+/* Note:
+ *   ERR_NO_ERR is always returned. However if no piece is at the from position,
+ *   or if from or two is not a valid offset, the behavior is undefined.
+ */
+
+Error move( bitboard &board, const uint64 from, const uint64 to ) {
+
+  piece_t piece;
+
+  piece = getPiece( board, from );
+  unset(board, from, piece );
+  set(board, to, piece);
+
+  return ERR_NO_ERR;
+}
+
+Error move(
+    bitboard &board,
+    piece_t piece,
+    const uint64 from,
+    const uint64 to
+) {
+
+  unset( board, piece, from );
+  set( board, piece, to );
+
+  return ERR_NO_ERR;
 }
 
 std::ostream &operator<<( std::ostream &o, const bitboard &b ) {

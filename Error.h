@@ -16,7 +16,7 @@
 
 enum Error {
 
-    /* ERR_NO_ERR = 0, */
+    ERR_NO_ERR = 0,
 
     /* 100s - Argument Errors */
     ERR_UNEXPECTED_TOKEN = 115

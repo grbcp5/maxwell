@@ -53,10 +53,9 @@ struct GameState {
     uint8 availableCastles;
 
     GameState()
-        : board{0},
+        : board{ 0 },
           nextToPlay( WHITE ),
-          availableCastles( 0 )
-    {}
+          availableCastles( 0 ) {}
 };
 
 /* Function Declarations ******************************************************/
@@ -70,6 +69,15 @@ bool isBlackOccupied( const bitboard &board, const uint64 offset );
 piece_t getPiece( const bitboard &board, const uint64 offset );
 
 GameState createBoard( const char *fen ) throw( Error );
+
+Error move( bitboard &board, const uint64 from, const uint64 to );
+
+Error move(
+    bitboard &board,
+    piece_t piece,
+    const uint64 from,
+    const uint64 to
+);
 
 std::ostream &operator<<( std::ostream &out, const bitboard &board );
 

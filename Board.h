@@ -68,7 +68,7 @@ bool isBlackOccupied( const bitboard &board, const uint64 offset );
 
 piece_t getPiece( const bitboard &board, const uint64 offset );
 
-GameState createBoard( const char *fen ) throw( Error );
+GameState *createBoard( const char *fen ) throw( Error );
 
 Error move( bitboard &board, const uint64 from, const uint64 to );
 

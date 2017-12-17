@@ -3,5 +3,5 @@ project(maxwell)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES Board.cpp main.cpp Error.h Piece.h Types.h ZTestBoard.cpp)
+set(SOURCE_FILES Board.cpp main.cpp Error.h Piece.h Types.h ZTestBoard.cpp ZTestExecutionState.cpp ZTestExecutionState.h ExecutionState.h GameExecutionState.cpp GameExecutionState.h)
 add_executable(maxwell ${SOURCE_FILES})

@@ -7,8 +7,18 @@
 
 #include "Board.h"
 
+bool boardTestSuite();
+
 bool testGetOffset();
 
 bool testInsertionOperator();
+
+bool testIsEmpty();
+
+bool testIsWhiteOccupied();
+
+bool testIsBlackOccupied();
+
+bool testMove();
 
 #endif //MAXWELL_ZTESTBOARD_H

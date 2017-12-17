@@ -28,11 +28,11 @@ bool isWhiteOccupied( const bitboard &board, const uint64 offset ) {
 
   for ( uint8 piece = WHITE_MIN; piece < BLACK_MIN; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
-      return false;
+      return true;
     }
   }
 
-  return true;
+  return false;
 
 }
 
@@ -40,11 +40,11 @@ bool isBlackOccupied( const bitboard &board, const uint64 offset ) {
 
   for ( uint8 piece = BLACK_MIN; piece < N_PIECE_TYPES; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
-      return false;
+      return true;
     }
   }
 
-  return true;
+  return false;
 
 }
 
@@ -61,18 +61,19 @@ piece_t getPiece( const bitboard &board, const uint64 offset ) {
 }
 
 
-GameState createBoard( const char *fen ) throw( Error ) {
+GameState *createBoard( const char *fen ) throw( Error ) {
 
   /* Local Variables */
   uint8 p( 0 );          // Position in fen string
   char c;                // Current car in fen string
-  GameState result;      // Object under construction
+  GameState *result;      // Object under construction
   uint8 pos( 0 );        // position in board [0, 63]
   uint64 offset( 1UL );  // Current offset in bitboard
   uint8 section( 0 );    // Section of fen string being parsed
 
   /* Initialize */
   c = fen[ p++ ];
+  result = new GameState();
 
   /* For each character */
   while ( c != '\0' ) {
@@ -110,82 +111,82 @@ GameState createBoard( const char *fen ) throw( Error ) {
       case 'K': // Black King
         if ( section == 0 ) {
           pos++;
-          set( result.board, offset, WK );
+          set( result->board, offset, WK );
         }
         else {
           // White king side castle
-          result.availableCastles |= WHITE_KING_SIDE;
+          result->availableCastles |= WHITE_KING_SIDE;
         }
         break;
       case 'Q': // White Queen
         if ( section == 0 ) {
           pos++;
-          set( result.board, offset, WQ );
+          set( result->board, offset, WQ );
         }
         else {
           // White queen side castle
-          result.availableCastles |= WHITE_QUEEN_SIDE;
+          result->availableCastles |= WHITE_QUEEN_SIDE;
         }
         break;
       case 'B': // White Bishop
         pos++;
-        set( result.board, offset, WB );
+        set( result->board, offset, WB );
         break;
       case 'N': // White Knight
         pos++;
-        set( result.board, offset, WN );
+        set( result->board, offset, WN );
         break;
       case 'R': // White Rook
         pos++;
-        set( result.board, offset, WR );
+        set( result->board, offset, WR );
         break;
       case 'P': // White Pawn
         pos++;
-        set( result.board, offset, WP );
+        set( result->board, offset, WP );
         break;
 
         /* Black Pieces */
       case 'k': // Black King
         if ( section == 0 ) {
           pos++;
-          set( result.board, offset, BK );
+          set( result->board, offset, BK );
         }
         else {
           // Black king side castle
-          result.availableCastles |= BLACK_KING_SIDE;
+          result->availableCastles |= BLACK_KING_SIDE;
         }
         break;
       case 'q': // Black Queen
         if ( section == 0 ) {
           pos++;
-          set( result.board, offset, BQ );
+          set( result->board, offset, BQ );
         }
         else {
           // Black queen side castle
-          result.availableCastles |= BLACK_QUEEN_SIDE;
+          result->availableCastles |= BLACK_QUEEN_SIDE;
         }
         break;
       case 'b': // Black Bishop
         if ( section == 0 ) {
           pos++;
-          set( result.board, offset, BB );
+          set( result->board, offset, BB );
         }
         else {
           // Black to play
-          result.nextToPlay = BLACK;
+          result->nextToPlay = BLACK;
         }
         break;
       case 'n': // Black Knight
         pos++;
-        set( result.board, offset, BN );
+        set( result->board, offset, BN );
         break;
       case 'r': // Black Rook
         pos++;
-        set( result.board, offset, BR );
+        set( result->board, offset, BR );
         break;
       case 'p': // Black Pawn
         pos++;
-        set( result.board, offset, BP );
+        set( result->board, offset, BP );
         break;
 
         /* Deliminator */
@@ -197,7 +198,7 @@ GameState createBoard( const char *fen ) throw( Error ) {
 
         /* White to play */
       case 'w':
-        result.nextToPlay = WHITE;
+        result->nextToPlay = WHITE;
         break;
 
         /* End of string signal */
@@ -239,8 +240,8 @@ Error move(
     const uint64 to
 ) {
 
-  unset( board, piece, from );
-  set( board, piece, to );
+  unset( board, from, piece );
+  set( board, to, piece );
 
   return ERR_NO_ERR;
 }

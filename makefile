@@ -2,7 +2,7 @@ default: build
 
 build:
 	mkdir -p out
-	g++ -g -std=c++11 *.cpp -o out/a.out
+	g++ -g *.cpp -o out/a.out
 
 run: build
 	out/a.out test

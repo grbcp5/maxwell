@@ -32,9 +32,14 @@ struct GameState {
     uint8 availableCastles;
 
     GameState()
-        : board{ 0 },
+        : board(),
           nextToPlay( WHITE ),
-          availableCastles( 0 ) {}
+          availableCastles( 0 )
+    {
+      for( int i = 0; i < N_PIECE_TYPES; i++ ) {
+        board[ i ] = 0;
+      }
+    }
 };
 
 /* Constants ******************************************************************/

@@ -33,6 +33,9 @@ bool testGetLegalWhitePawnMoves() {
   /* Constatns */
   const offset_t NO_PIN = 18446744073709551615UL;
   offset_t pos_offset;
+  const Move UNDEFINED_MOVE;
+  const Move DBL_JUMP_LEFT( BP, getOffset( 'c', 7 ), getOffset( 'c', 5 ));
+  const Move DBL_JUMP_RIGHT( BP, getOffset( 'e', 7 ), getOffset( 'e', 5 ));
 
   /* Local Variables */
   GameState *board( NULL );
@@ -42,7 +45,9 @@ bool testGetLegalWhitePawnMoves() {
   offset_t pin;
 
   resultingMoves = new MovePtr[5];
-  resultingMoves[ 0 ] = NULL;
+  for( int itr = 0; itr < 5; itr++ ) {
+    resultingMoves[ itr ] = NULL;
+  }
   iterator = resultingMoves;
 
   /* Test home row ************************************************************/
@@ -58,7 +63,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       NO_PIN
   );
 
@@ -70,9 +75,9 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
-  delete ( iterator );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
+    if ( resultingMoves[ i ] == NULL ) {
       continue;
     }
     delete ( resultingMoves[ i ] );
@@ -93,7 +98,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       NO_PIN
   );
 
@@ -105,7 +110,11 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
+    }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
@@ -125,7 +134,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       pin
   );
 
@@ -137,7 +146,11 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
+    }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
@@ -156,7 +169,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       NO_PIN
   );
 
@@ -168,7 +181,11 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
+    }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
@@ -189,7 +206,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       pin
   );
 
@@ -202,6 +219,9 @@ bool testGetLegalWhitePawnMoves() {
 
   delete ( board );
   for ( i = 0; i < 5; i++ ) {
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
+    }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
@@ -221,7 +241,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       pin
   );
 
@@ -233,7 +253,11 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
+    }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
@@ -253,7 +277,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       pin
   );
 
@@ -265,7 +289,11 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
+    }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
@@ -285,7 +313,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { NOTHING, 0, 0 },
+      UNDEFINED_MOVE,
       pin
   );
 
@@ -297,9 +325,10 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
-      break;
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
     }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
@@ -320,7 +349,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { BP, getOffset( 'c', 7 ), getOffset( 'c', 5 ) },
+      DBL_JUMP_LEFT,
       pin
   );
 
@@ -332,9 +361,10 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
-      break;
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
     }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
@@ -355,7 +385,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { BP, getOffset( 'c', 7 ), getOffset( 'c', 5 ) },
+      DBL_JUMP_LEFT,
       pin
   );
 
@@ -367,9 +397,10 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
-      break;
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
     }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
@@ -390,7 +421,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { BP, getOffset( 'c', 7 ), getOffset( 'c', 5 ) },
+      DBL_JUMP_LEFT,
       pin
   );
 
@@ -402,9 +433,10 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
-      break;
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
     }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
@@ -425,7 +457,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { BP, getOffset( 'e', 7 ), getOffset( 'e', 5 ) },
+      DBL_JUMP_RIGHT,
       pin
   );
 
@@ -437,16 +469,17 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
-      break;
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
     }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
   iterator = resultingMoves;
 
-  /* Test en passant left pin *************************************************/
+  /* Test en passant right pin ************************************************/
   board = createBoard(
       "8/5b2/8/3Pp3/2K5/8/8/8 w - -"
   );
@@ -460,7 +493,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { BP, getOffset( 'e', 7 ), getOffset( 'e', 5 ) },
+      DBL_JUMP_RIGHT,
       pin
   );
 
@@ -472,16 +505,17 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
-      break;
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
     }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
   iterator = resultingMoves;
 
-  /* Test en passant left pin (2) *********************************************/
+  /* Test en passant right pin (2) ********************************************/
   board = createBoard(
       "8/3r4/8/3Pp3/8/3K4/8/8 w - -"
   );
@@ -495,7 +529,7 @@ bool testGetLegalWhitePawnMoves() {
       board->board,
       pos_offset,
       iterator,
-      { BP, getOffset( 'e', 7 ), getOffset( 'e', 5 ) },
+      DBL_JUMP_RIGHT,
       pin
   );
 
@@ -507,14 +541,16 @@ bool testGetLegalWhitePawnMoves() {
   }
 
   delete ( board );
+  if (( *iterator ) != NULL ) { delete ( iterator ); }
   for ( i = 0; i < 5; i++ ) {
-    if( resultingMoves[ i ] == NULL ) {
-      break;
+    if ( resultingMoves[ i ] == NULL ) {
+      continue;
     }
     delete ( resultingMoves[ i ] );
     resultingMoves[ i ] = NULL;
   }
-  iterator = resultingMoves;
+
+  delete [] resultingMoves;
 
   return true;
 }

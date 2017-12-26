@@ -12,6 +12,7 @@
  ******************************************************************************/
 
 #include <iostream>
+#include <cstring>
 
 #include "ZTestExecutionState.h"
 #include "GameExecutionState.h"

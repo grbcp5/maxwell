@@ -13,6 +13,8 @@
 
 #include "LegalMoveGenerator.h"
 
+#include <cstring>
+
 std::ostream &operator<<( std::ostream &o, const Move &m ) {
 
   char fromFile( 0 );
@@ -23,11 +25,13 @@ std::ostream &operator<<( std::ostream &o, const Move &m ) {
 
   getFileRankNotation( m.from, fromFile, fromRank );
   getFileRankNotation( m.to, toFile, toRank );
-  pieceName = new char[strlen( PIECE_NAME_LOOKUP_TABLE[ m.piece ] )];
+  pieceName = new char[ 13 ];
   strcpy( pieceName, PIECE_NAME_LOOKUP_TABLE[ m.piece ] );
 
   o << "Move " << pieceName << " from " << fromFile << fromRank << " to "
     << toFile << toRank;
+
+  delete [] pieceName;
 
   return o;
 }

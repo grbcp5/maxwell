@@ -275,9 +275,9 @@ bool testMove() {
       to
   );
 
-  delete ( boardUnderTest );
-
   cout << boardUnderTest->board << endl;
+
+  delete ( boardUnderTest );
 
   return true;
 }

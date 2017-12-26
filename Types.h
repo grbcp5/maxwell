@@ -36,5 +36,33 @@ typedef uint32_t uint32;
 typedef int64_t int64;
 typedef uint64_t uint64;
 
+template <typename T>
+struct LLNode {
+    LLNode *next;
+    T *data;
+
+    LLNode() : next( NULL ), data( NULL )
+    {}
+
+    LLNode( T *t ) : next( NULL ), data( t )
+    {}
+
+    LLNode( T *t, LLNode *n ) : next( n ), data( t )
+    {}
+
+    ~LLNode() {
+      if( next != NULL ) {
+        delete( next );
+        next = NULL;
+      }
+
+      if( data != NULL ) {
+        delete( data );
+        next = NULL;
+      }
+    }
+
+};
+
 
 #endif // MAXWELL_TYPES_H

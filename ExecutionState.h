@@ -18,6 +18,7 @@ class ExecutionState {
 public:
 
     virtual int execute() = 0;
+    virtual ~ExecutionState() {};
 
 };
 

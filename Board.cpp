@@ -13,7 +13,26 @@
 
 #include "Board.h"
 
-bool isEmpty( const bitboard &board, const uint64 offset ) {
+void getFileRankNotation( const offset_t offset, char &file, int &rank ) {
+
+  for( char f = 'a'; f <= 'h'; f++ ) {
+    if( offset & FILES[ f - 'a' ] ) {
+      file = f;
+      break;
+    }
+  }
+
+  for( int r = 0; r < 8; r++ ) {
+    if( offset & RANKS[ r ] ) {
+      rank = 8 - r;
+      break;
+    }
+  }
+
+  return;
+}
+
+bool isEmpty( const bitboard &board, const offset_t offset ) {
 
   for ( uint8 piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
@@ -24,7 +43,7 @@ bool isEmpty( const bitboard &board, const uint64 offset ) {
   return true;
 }
 
-bool isWhiteOccupied( const bitboard &board, const uint64 offset ) {
+bool isWhiteOccupied( const bitboard &board, const offset_t offset ) {
 
   for ( uint8 piece = WHITE_MIN; piece < BLACK_MIN; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
@@ -36,7 +55,7 @@ bool isWhiteOccupied( const bitboard &board, const uint64 offset ) {
 
 }
 
-bool isBlackOccupied( const bitboard &board, const uint64 offset ) {
+bool isBlackOccupied( const bitboard &board, const offset_t offset ) {
 
   for ( uint8 piece = BLACK_MIN; piece < N_PIECE_TYPES; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
@@ -48,7 +67,7 @@ bool isBlackOccupied( const bitboard &board, const uint64 offset ) {
 
 }
 
-piece_t getPiece( const bitboard &board, const uint64 offset ) {
+piece_t getPiece( const bitboard &board, const offset_t offset ) {
 
   for ( uint8 piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
@@ -68,7 +87,7 @@ GameState *createBoard( const char *fen ) throw( Error ) {
   char c;                // Current car in fen string
   GameState *result;      // Object under construction
   uint8 pos( 0 );        // position in board [0, 63]
-  uint64 offset( 1UL );  // Current offset in bitboard
+  offset_t offset( 1UL );  // Current offset in bitboard
   uint8 section( 0 );    // Section of fen string being parsed
 
   /* Initialize */
@@ -222,7 +241,7 @@ GameState *createBoard( const char *fen ) throw( Error ) {
  *   or if from or two is not a valid offset, the behavior is undefined.
  */
 
-Error move( bitboard &board, const uint64 from, const uint64 to ) {
+Error move( bitboard &board, const offset_t from, const offset_t to ) {
 
   piece_t piece;
 
@@ -236,8 +255,8 @@ Error move( bitboard &board, const uint64 from, const uint64 to ) {
 Error move(
     bitboard &board,
     piece_t piece,
-    const uint64 from,
-    const uint64 to
+    const offset_t from,
+    const offset_t to
 ) {
 
   unset( board, from, piece );
@@ -252,7 +271,7 @@ std::ostream &operator<<( std::ostream &o, const bitboard &b ) {
   const char *divRow = "+---+---+---+---+---+---+---+---+";
 
   /* Local variables */
-  uint64 offset( 1UL );
+  offset_t offset( 1UL );
   uint8 pos( 0 );
 
   /* Output top boarder of board */

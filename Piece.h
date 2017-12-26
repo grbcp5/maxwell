@@ -23,6 +23,23 @@ const char PIECE_SYMBOL_LOOKUP_TABLE[] =
         ' '                           /* Nothing      */
     };
 
+const char * const PIECE_NAME_LOOKUP_TABLE[] =
+    {
+        "White King",
+        "White Queen",
+        "White Bishop",
+        "White Knight",
+        "White Rook",
+        "White Pawn",
+        "Black King",
+        "Black Queen",
+        "Black Bishop",
+        "Black Night",
+        "Black Rook",
+        "Black Pawn",
+        "Nothing"
+    };
+
 /* Macros *********************************************************************/
 
 #define getSymbol( piece ) \

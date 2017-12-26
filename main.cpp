@@ -1,3 +1,16 @@
+/******************************************************************************
+ *
+ * File:
+ *   main
+ *
+ * Author:
+ *   Grant Broadwater
+ *
+ * Project:
+ *   maxwell
+ *
+ ******************************************************************************/
+
 #include <iostream>
 
 #include "ZTestExecutionState.h"
@@ -11,10 +24,14 @@ int main( const int argc, const char **argv ) {
 
   /* Local Variables */
   ExecutionState *state;
+  int stateExecutionReturn;
 
   state = getExecutionState( argc, argv );
 
-   return state->execute();
+  stateExecutionReturn = state->execute();
+  delete( state );
+
+  return stateExecutionReturn;
 }
 
 
@@ -43,3 +60,4 @@ ExecutionState *getExecutionState( const int argc, const char **argv ) {
   return new GameExecutionState();
 
 }
+

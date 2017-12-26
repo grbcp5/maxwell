@@ -19,6 +19,8 @@ using namespace std;
 
 bool boardTestSuite() {
 
+  cout << "\n----- Board Tests -----\n" << endl;
+
   return testGetOffset() &&
          testInsertionOperator() &&
          testIsEmpty() &&
@@ -31,7 +33,7 @@ bool boardTestSuite() {
 bool testGetOffset() {
 
   int iteration;
-  uint64 returnValue;
+  offset_t returnValue;
 
   iteration = 0;
 
@@ -95,6 +97,8 @@ bool testInsertionOperator() {
     returnValue = createBoard( testCases[ i ].fen_string );
 
     cout << returnValue->board << "\n" << endl;
+
+    delete returnValue;
   }
 
   return true;
@@ -105,7 +109,7 @@ bool testIsEmpty() {
   /* Local variables */
   GameState *boardUnderTest;
   uint8 pos( 0 );
-  uint64 offset( 1UL );
+  offset_t offset( 1UL );
   int empty;
   int full;
 
@@ -163,13 +167,15 @@ bool testIsEmpty() {
 
   cout << "PASS" << endl;
 
+  delete ( boardUnderTest );
+
   return true;
 }
 
 bool testIsWhiteOccupied() {
 
   int pos;
-  uint64 offset;
+  offset_t offset;
   GameState *boardUnderTest;
 
   boardUnderTest = createBoard(
@@ -194,6 +200,8 @@ bool testIsWhiteOccupied() {
     }
   }
 
+  delete ( boardUnderTest );
+
   cout << "PASS" << endl;
   return true;
 }
@@ -201,7 +209,7 @@ bool testIsWhiteOccupied() {
 bool testIsBlackOccupied() {
 
   int pos;
-  uint64 offset;
+  offset_t offset;
   GameState *boardUnderTest;
 
   boardUnderTest = createBoard(
@@ -226,6 +234,8 @@ bool testIsBlackOccupied() {
     }
   }
 
+  delete ( boardUnderTest );
+
   cout << "PASS" << endl;
   return true;
 }
@@ -234,8 +244,8 @@ bool testMove() {
 
   /* Local variables */
   GameState *boardUnderTest;
-  uint64 from;
-  uint64 to;
+  offset_t from;
+  offset_t to;
 
   /* Initialize */
   boardUnderTest = createBoard(
@@ -264,6 +274,8 @@ bool testMove() {
       from,
       to
   );
+
+  delete ( boardUnderTest );
 
   cout << boardUnderTest->board << endl;
 

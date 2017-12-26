@@ -14,9 +14,13 @@
 #include "ZTestExecutionState.h"
 
 #include "ZTestBoard.h"
+#include "ZTestLegalMoveGenerator.h"
 
 int ZTestExecutionState::execute() {
 
-  return !boardTestSuite();
+  return !(
+      boardTestSuite()
+      && legalMoveGeneratorSuite()
+  );
 
 }

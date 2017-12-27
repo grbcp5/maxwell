@@ -25,7 +25,7 @@ void getFileRankNotation( const offset_t offset, char &file, int &rank ) {
 
   for ( int r = 0; r < 8; r++ ) {
     if ( offset & RANKS[ r ] ) {
-      rank = 8 - r;
+      rank = r + 1;
       break;
     }
   }

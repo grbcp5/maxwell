@@ -20,6 +20,24 @@
 #include "Piece.h"
 #include "Error.h"
 
+/* Types **********************************************************************/
+
+struct Move {
+    piece_t piece;
+    offset_t from;
+    offset_t to;
+
+    Move() : piece( NOTHING ), from( 0 ), to( 0 ) {}
+
+    Move( piece_t p, offset_t f, offset_t t )
+        : piece( p ),
+          from( f ),
+          to( t ) {}
+
+};
+
+typedef Move *MovePtr;
+
 /* Constants ******************************************************************/
 
 #define WHITE_PAWN_HOME_ROW RANKS[6]
@@ -27,19 +45,7 @@
 #define RIGHT_SIDE FILES[7]
 #define BOTTOM_SIX_ROWS 18446744073709486080UL
 
-struct Move {
-    piece_t piece;
-    offset_t from;
-    offset_t to;
-
-    Move() : piece( NOTHING ), from( 0 ), to( 0 )
-    {}
-
-    Move( piece_t p, offset_t f, offset_t t ) : piece( p ), from( f ), to( t )
-    {}
-
-};
-typedef Move* MovePtr;
+/* Function Declarations ******************************************************/
 
 std::ostream &operator<<( std::ostream &outputStream, const Move &move );
 

@@ -20,6 +20,7 @@
 
 using namespace std;
 
+
 bool legalMoveGeneratorSuite() {
 
   cout << "\n----- Legal Move Generator Tests ---\n" << endl;
@@ -27,6 +28,7 @@ bool legalMoveGeneratorSuite() {
   return testGetLegalWhitePawnMoves();
 
 }
+
 
 bool testGetLegalWhitePawnMoves() {
 

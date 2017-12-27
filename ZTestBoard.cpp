@@ -71,7 +71,7 @@ bool testInsertionOperator() {
   } TestCase;
 
   /* Constants */
-  const uint8 NUM_TEST_CASES = 3;
+  const int NUM_TEST_CASES = 3;
 
   /* Variables */
   GameState *returnValue;
@@ -108,7 +108,7 @@ bool testIsEmpty() {
 
   /* Local variables */
   GameState *boardUnderTest;
-  uint8 pos( 0 );
+  int pos( 0 );
   offset_t offset( 1UL );
   int empty;
   int full;

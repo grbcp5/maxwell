@@ -13,17 +13,18 @@
 
 #include "Board.h"
 
+
 void getFileRankNotation( const offset_t offset, char &file, int &rank ) {
 
-  for( char f = 'a'; f <= 'h'; f++ ) {
-    if( offset & FILES[ f - 'a' ] ) {
+  for ( char f = 'a'; f <= 'h'; f++ ) {
+    if ( offset & FILES[ f - 'a' ] ) {
       file = f;
       break;
     }
   }
 
-  for( int r = 0; r < 8; r++ ) {
-    if( offset & RANKS[ r ] ) {
+  for ( int r = 0; r < 8; r++ ) {
+    if ( offset & RANKS[ r ] ) {
       rank = 8 - r;
       break;
     }
@@ -32,9 +33,10 @@ void getFileRankNotation( const offset_t offset, char &file, int &rank ) {
   return;
 }
 
+
 bool isEmpty( const bitboard &board, const offset_t offset ) {
 
-  for ( uint8 piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
+  for ( int piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
       return false;
     }
@@ -43,9 +45,10 @@ bool isEmpty( const bitboard &board, const offset_t offset ) {
   return true;
 }
 
+
 bool isWhiteOccupied( const bitboard &board, const offset_t offset ) {
 
-  for ( uint8 piece = WHITE_MIN; piece < BLACK_MIN; piece++ ) {
+  for ( int piece = WHITE_MIN; piece < BLACK_MIN; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
       return true;
     }
@@ -54,10 +57,11 @@ bool isWhiteOccupied( const bitboard &board, const offset_t offset ) {
   return false;
 
 }
+
 
 bool isBlackOccupied( const bitboard &board, const offset_t offset ) {
 
-  for ( uint8 piece = BLACK_MIN; piece < N_PIECE_TYPES; piece++ ) {
+  for ( int piece = BLACK_MIN; piece < N_PIECE_TYPES; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
       return true;
     }
@@ -67,9 +71,10 @@ bool isBlackOccupied( const bitboard &board, const offset_t offset ) {
 
 }
 
+
 piece_t getPiece( const bitboard &board, const offset_t offset ) {
 
-  for ( uint8 piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
+  for ( int piece = PIECE_MIN; piece < N_PIECE_TYPES; piece++ ) {
     if ( isOccupiedBy( board, offset, piece )) {
       return ( piece_t ) piece;
     }
@@ -83,12 +88,12 @@ piece_t getPiece( const bitboard &board, const offset_t offset ) {
 GameState *createBoard( const char *fen ) throw( Error ) {
 
   /* Local Variables */
-  uint8 p( 0 );          // Position in fen string
-  char c;                // Current car in fen string
-  GameState *result;      // Object under construction
-  uint8 pos( 0 );        // position in board [0, 63]
+  int p( 0 );            // Position in fen string
+  char c;                  // Current car in fen string
+  GameState *result;       // Object under construction
+  int pos( 0 );          // position in board [0, 63]
   offset_t offset( 1UL );  // Current offset in bitboard
-  uint8 section( 0 );    // Section of fen string being parsed
+  int section( 0 );      // Section of fen string being parsed
 
   /* Initialize */
   c = fen[ p++ ];
@@ -246,8 +251,8 @@ Error move( bitboard &board, const offset_t from, const offset_t to ) {
   piece_t piece;
 
   piece = getPiece( board, from );
-  unset(board, from, piece );
-  set(board, to, piece);
+  unset( board, from, piece );
+  set( board, to, piece );
 
   return ERR_NO_ERR;
 }
@@ -272,7 +277,7 @@ std::ostream &operator<<( std::ostream &o, const bitboard &b ) {
 
   /* Local variables */
   offset_t offset( 1UL );
-  uint8 pos( 0 );
+  int pos( 0 );
 
   /* Output top boarder of board */
   o << divRow << "\n";
@@ -287,7 +292,7 @@ std::ostream &operator<<( std::ostream &o, const bitboard &b ) {
     for ( int c = 0; c < 8; c++ ) {
 
       /* Output symbol of piece at this square */
-      o << ' ' << getSymbol( getPiece( b, offset )) << " |";
+      o << ' ' << getPieceSymbol( getPiece( b, offset )) << " |";
 
       /* Shift position for next iteration */
       offset = 1UL << ( ++pos );

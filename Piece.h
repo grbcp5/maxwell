@@ -14,37 +14,6 @@
 #ifndef MAXWELL_PIECE_H
 #define MAXWELL_PIECE_H
 
-/* Constants ******************************************************************/
-
-const char PIECE_SYMBOL_LOOKUP_TABLE[] =
-    {
-        'K', 'Q', 'B', 'N', 'R', 'P', /* White Pieces */
-        'k', 'q', 'b', 'n', 'r', 'p', /* Black Pieces */
-        ' '                           /* Nothing      */
-    };
-
-const char * const PIECE_NAME_LOOKUP_TABLE[] =
-    {
-        "White King",
-        "White Queen",
-        "White Bishop",
-        "White Knight",
-        "White Rook",
-        "White Pawn",
-        "Black King",
-        "Black Queen",
-        "Black Bishop",
-        "Black Night",
-        "Black Rook",
-        "Black Pawn",
-        "Nothing"
-    };
-
-/* Macros *********************************************************************/
-
-#define getSymbol( piece ) \
-( PIECE_SYMBOL_LOOKUP_TABLE[ piece ] )
-
 /* Types **********************************************************************/
 
 enum color_t {
@@ -74,5 +43,39 @@ enum piece_t {
     N_PIECE_TYPES = 12,
     NOTHING = 12
 };
+
+/* Constants ******************************************************************/
+
+const char PIECE_SYMBOL_LOOKUP_TABLE[] =
+    {
+        'K', 'Q', 'B', 'N', 'R', 'P', /* White Pieces */
+        'k', 'q', 'b', 'n', 'r', 'p', /* Black Pieces */
+        ' '                           /* Nothing      */
+    };
+
+const char *const PIECE_NAME_LOOKUP_TABLE[] =
+    {
+        "White King",
+        "White Queen",
+        "White Bishop",
+        "White Knight",
+        "White Rook",
+        "White Pawn",
+        "Black King",
+        "Black Queen",
+        "Black Bishop",
+        "Black Night",
+        "Black Rook",
+        "Black Pawn",
+        "Nothing"
+    };
+
+/* Macros *********************************************************************/
+
+#define getPieceSymbol( piece ) \
+( PIECE_SYMBOL_LOOKUP_TABLE[ piece ] )
+
+#define getPieceName( piece ) \
+( PIECE_NAME_LOOKUP_TABLE[ piece ] )
 
 #endif // MAXWELL_PIECE_H

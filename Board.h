@@ -29,7 +29,7 @@ typedef offset_t bitboard[N_PIECE_TYPES];
 struct GameState {
     bitboard board;
     color_t nextToPlay;
-    uint8 availableCastles;
+    int availableCastles;
 
     GameState()
         : board(),
@@ -85,8 +85,6 @@ const offset_t RANKS[] = {
 
 #define isOccupiedBy( board, offset, piece ) \
 (( bool ) ( board[ piece ] & offset))
-
-
 
 /* Function Declarations ******************************************************/
 

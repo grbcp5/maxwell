@@ -17,21 +17,20 @@
 
 std::ostream &operator<<( std::ostream &o, const Move &m ) {
 
-  char fromFile( 0 );
-  int fromRank( 0 );
-  char toFile( 0 );
-  int toRank( 0 );
-  char *pieceName;
+  /* Local Variables */
+  char fromFile;
+  int fromRank;
+  char toFile;
+  int toRank;
 
+  /* Convert offsets to file and rank notation */
   getFileRankNotation( m.from, fromFile, fromRank );
   getFileRankNotation( m.to, toFile, toRank );
-  pieceName = new char[ 13 ];
-  strcpy( pieceName, PIECE_NAME_LOOKUP_TABLE[ m.piece ] );
 
-  o << "Move " << pieceName << " from " << fromFile << fromRank << " to "
-    << toFile << toRank;
-
-  delete [] pieceName;
+  /* Output */
+  o << "Move " << getPieceName( m.piece )
+    << " from " << fromFile << fromRank
+    << " to " << toFile << toRank;
 
   return o;
 }

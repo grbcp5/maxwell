@@ -40,16 +40,24 @@ typedef Move *MovePtr;
 
 /* Constants ******************************************************************/
 
-#define WHITE_PAWN_HOME_ROW RANKS[6]
+#define WHITE_PAWN_HOME_ROW RANKS[1]
+#define BLACK_PAWN_HOME_ROW RANKS[6]
 #define LEFT_SIDE FILES[0]
 #define RIGHT_SIDE FILES[7]
-#define BOTTOM_SIX_ROWS 18446744073709486080UL
 
 /* Function Declarations ******************************************************/
 
 std::ostream &operator<<( std::ostream &outputStream, const Move &move );
 
 Error getLegalWhitePawnMoves(
+    const bitboard &board,
+    const offset_t from,
+    MovePtr *&array,
+    const Move &lastMove,
+    const offset_t eligible_Squares
+);
+
+Error getLegalBlackPawnMoves(
     const bitboard &board,
     const offset_t from,
     MovePtr *&array,

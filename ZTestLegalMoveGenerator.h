@@ -9,5 +9,7 @@ bool legalMoveGeneratorSuite();
 
 bool testGetLegalWhitePawnMoves();
 
+bool testGetLegalBlackPawnMoves();
+
 
 #endif //MAXWELL_ZTESTLEGALMOVEGENERATOR_H

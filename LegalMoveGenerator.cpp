@@ -38,7 +38,7 @@ std::ostream &operator<<( std::ostream &o, const Move &m ) {
 Error getLegalWhitePawnMoves(
     const bitboard &board,
     const offset_t from,
-    MovePtr *&array,
+    Move *&array,
     const Move &lastMove,
     const offset_t eligible_Squares
 ) {
@@ -59,13 +59,17 @@ Error getLegalWhitePawnMoves(
     if ( from & WHITE_PAWN_HOME_ROW
          && isEmpty( board, twoAhead )
          && twoAhead & eligible_Squares ) {
-      *array = new Move( WP, from, twoAhead );
+      array->piece = WP;
+      array->from = from;
+      array->to = twoAhead;
       array++;
     }
 
     /* Check if pawn can move forward one square */
     if ( oneAhead & eligible_Squares ) {
-      *array = new Move( WP, from, oneAhead );
+      array->piece = WP;
+      array->from = from;
+      array->to = oneAhead;
       array++;
     }
 
@@ -76,7 +80,9 @@ Error getLegalWhitePawnMoves(
     diagonal = ( from >> 9 );
     if ( isBlackOccupied( board, diagonal )
          && ( eligible_Squares & diagonal )) {
-      *array = new Move( WP, from, diagonal );
+      array->piece = WP;
+      array->from = from;
+      array->to = diagonal;
       array++;
     }
   }
@@ -86,7 +92,9 @@ Error getLegalWhitePawnMoves(
     diagonal = ( from >> 7 );
     if ( isBlackOccupied( board, diagonal )
          && ( eligible_Squares & diagonal )) {
-      *array = new Move( WP, from, diagonal );
+      array->piece = WP;
+      array->from = from;
+      array->to = diagonal;
       array++;
     }
   }
@@ -101,7 +109,9 @@ Error getLegalWhitePawnMoves(
 
       enPassant = ( from >> 9 );
       if ( eligible_Squares & enPassant ) {
-        *array = new Move( WP, from, enPassant );
+        array->piece = WP;
+        array->from = from;
+        array->to = enPassant;
         array++;
       }
 
@@ -114,7 +124,9 @@ Error getLegalWhitePawnMoves(
 
       enPassant = ( from >> 7 );
       if ( eligible_Squares & enPassant ) {
-        *array = new Move( WP, from, enPassant );
+        array->piece = WP;
+        array->from = from;
+        array->to = enPassant;
         array++;
       }
 
@@ -123,7 +135,7 @@ Error getLegalWhitePawnMoves(
   }
 
   /* Null terminate list */
-  *array = NULL;
+  array->piece = NOTHING;
 
   return ERR_NO_ERR;
 }
@@ -132,7 +144,7 @@ Error getLegalWhitePawnMoves(
 Error getLegalBlackPawnMoves(
     const bitboard &board,
     const offset_t from,
-    MovePtr *&array,
+    Move *&array,
     const Move &lastMove,
     const offset_t eligible_Squares
 ) {
@@ -153,13 +165,17 @@ Error getLegalBlackPawnMoves(
     if ( from & BLACK_PAWN_HOME_ROW
          && isEmpty( board, twoAhead )
          && twoAhead & eligible_Squares ) {
-      *array = new Move( BP, from, twoAhead );
+      array->piece = BP;
+      array->from = from;
+      array->to = twoAhead;
       array++;
     }
 
     /* Check if pawn can move forward one square */
     if ( oneAhead & eligible_Squares ) {
-      *array = new Move( BP, from, oneAhead );
+      array->piece = BP;
+      array->from = from;
+      array->to = oneAhead;
       array++;
     }
 
@@ -170,7 +186,9 @@ Error getLegalBlackPawnMoves(
     diagonal = ( from << 7 );
     if ( isWhiteOccupied( board, diagonal )
          && ( eligible_Squares & diagonal )) {
-      *array = new Move( BP, from, diagonal );
+      array->piece = BP;
+      array->from = from;
+      array->to = diagonal;
       array++;
     }
   }
@@ -180,7 +198,9 @@ Error getLegalBlackPawnMoves(
     diagonal = ( from << 9 );
     if ( isWhiteOccupied( board, diagonal )
          && ( eligible_Squares & diagonal )) {
-      *array = new Move( BP, from, diagonal );
+      array->piece = BP;
+      array->from = from;
+      array->to = diagonal;
       array++;
     }
   }
@@ -195,7 +215,9 @@ Error getLegalBlackPawnMoves(
 
       enPassant = ( from << 7 );
       if ( eligible_Squares & enPassant ) {
-        *array = new Move( BP, from, enPassant );
+        array->piece = BP;
+        array->from = from;
+        array->to = enPassant;
         array++;
       }
 
@@ -208,7 +230,9 @@ Error getLegalBlackPawnMoves(
 
       enPassant = ( from << 9 );
       if ( eligible_Squares & enPassant ) {
-        *array = new Move( BP, from, enPassant );
+        array->piece = BP;
+        array->from = from;
+        array->to = enPassant;
         array++;
       }
 
@@ -217,7 +241,7 @@ Error getLegalBlackPawnMoves(
   }
 
   /* Null terminate list */
-  *array = NULL;
+  array->piece = NOTHING;
 
   return ERR_NO_ERR;
 
@@ -226,7 +250,7 @@ Error getLegalBlackPawnMoves(
 Error getLegalKnightMoves(
     const bitboard &board,
     const offset_t from,
-    MovePtr *&array,
+    Move *&array,
     const offset_t eligible_Squares,
     is_occupied_func_t is_occupied,
     const piece_t piece
@@ -234,11 +258,13 @@ Error getLegalKnightMoves(
 
 /* Macros */
 
-#define addIfValid( to )                     \
-  potential_to = to;                                \
+#define addIfValid( new_to )                        \
+  potential_to = new_to;                            \
   if ( ( !is_occupied( board, potential_to )        \
           && eligible_Squares & potential_to ) ) {  \
-    *array = new Move( piece, from, potential_to ); \
+    array->piece = piece;                           \
+    array->from = from;                             \
+    array->to = potential_to;                       \
     array++;                                        \
   }
 
@@ -420,6 +446,8 @@ Error getLegalKnightMoves(
 
 #undef addIfValid
 
-  return ERR_NO_ERR;
+  /* Null terminate list */
+  array->piece = NOTHING;
 
+  return ERR_NO_ERR;
 }

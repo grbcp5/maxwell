@@ -89,7 +89,7 @@ std::ostream &operator<<( std::ostream &outputStream, const Move &move );
 Error getLegalWhitePawnMoves(
     const bitboard &board,
     const offset_t from,
-    MovePtr *&array,
+    Move *&array,
     const Move &lastMove,
     const offset_t eligible_Squares
 );
@@ -97,7 +97,7 @@ Error getLegalWhitePawnMoves(
 Error getLegalBlackPawnMoves(
     const bitboard &board,
     const offset_t from,
-    MovePtr *&array,
+    Move *&array,
     const Move &lastMove,
     const offset_t eligible_Squares
 );
@@ -106,7 +106,7 @@ Error getLegalBlackPawnMoves(
 Error getLegalKnightMoves(
     const bitboard &board,
     const offset_t from,
-    MovePtr *&array,
+    Move *&array,
     const offset_t eligible_Squares,
     is_occupied_func_t is_occupied_func,
     const piece_t

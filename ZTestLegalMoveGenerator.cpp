@@ -26,8 +26,8 @@ bool legalMoveGeneratorSuite() {
   cout << "\n----- Legal Move Generator Tests ---\n" << endl;
 
   return testGetLegalWhitePawnMoves()
-      && testGetLegalBlackPawnMoves()
-      && testGetLegalKnightMoves();
+         && testGetLegalBlackPawnMoves()
+         && testGetLegalKnightMoves();
 
 }
 
@@ -51,14 +51,13 @@ bool testGetLegalWhitePawnMoves() {
 
   /* Local Variables */
   GameState *board( NULL );
-  MovePtr *resultingMoves;
-  MovePtr *iterator;
+  Move resultingMoves[5];
+  Move *iterator;
   int i;
 
   /* Initialize */
-  resultingMoves = new MovePtr[5];
   for ( int itr = 0; itr < 5; itr++ ) {
-    resultingMoves[ itr ] = NULL;
+    resultingMoves[ itr ] = UNDEFINED_MOVE;
   }
   iterator = resultingMoves;
 
@@ -190,8 +189,8 @@ bool testGetLegalWhitePawnMoves() {
     /* Print all resulting moves */
     cout << "Legal moves: " << "{\n";
     i = 0;
-    while ( resultingMoves[ i ] != NULL ) {
-      cout << "\t" << ( *resultingMoves[ i ] ) << endl;
+    while ( resultingMoves[ i ].piece != NOTHING ) {
+      cout << "\t" << ( resultingMoves[ i ] ) << endl;
 
       i++;
     }
@@ -200,20 +199,11 @@ bool testGetLegalWhitePawnMoves() {
     /* Deallocate dynamic memory */
     delete ( board );
     for ( i = 0; i < 5; i++ ) {
-
-      if ( resultingMoves[ i ] == NULL ) {
-        continue;
-      }
-
-      delete ( resultingMoves[ i ] );
-      resultingMoves[ i ] = NULL;
-
+      resultingMoves[ i ] = UNDEFINED_MOVE;
     }
     iterator = resultingMoves;
 
   }
-
-  delete[] resultingMoves;
 
   return true;
 }
@@ -239,14 +229,13 @@ bool testGetLegalBlackPawnMoves() {
 
   /* Local Variables */
   GameState *board( NULL );
-  MovePtr *resultingMoves;
-  MovePtr *iterator;
+  Move resultingMoves[5];
+  Move *iterator;
   int i;
 
   /* Initialize */
-  resultingMoves = new MovePtr[5];
   for ( int itr = 0; itr < 5; itr++ ) {
-    resultingMoves[ itr ] = NULL;
+    resultingMoves[ itr ] = UNDEFINED_MOVE;
   }
   iterator = resultingMoves;
 
@@ -371,8 +360,8 @@ bool testGetLegalBlackPawnMoves() {
     /* Print all resulting moves */
     cout << "Legal moves: " << "{\n";
     i = 0;
-    while ( resultingMoves[ i ] != NULL ) {
-      cout << "\t" << ( *resultingMoves[ i ] ) << endl;
+    while ( resultingMoves[ i ].piece != NOTHING ) {
+      cout << "\t" << ( resultingMoves[ i ] ) << endl;
 
       i++;
     }
@@ -381,20 +370,11 @@ bool testGetLegalBlackPawnMoves() {
     /* Deallocate dynamic memory */
     delete ( board );
     for ( i = 0; i < 5; i++ ) {
-
-      if ( resultingMoves[ i ] == NULL ) {
-        continue;
-      }
-
-      delete ( resultingMoves[ i ] );
-      resultingMoves[ i ] = NULL;
-
+      resultingMoves[ i ] = UNDEFINED_MOVE;
     }
     iterator = resultingMoves;
 
   }
-
-  delete[] resultingMoves;
 
   return true;
 
@@ -415,19 +395,20 @@ bool testGetLegalKnightMoves() {
 
   /* Constants */
   const offset_t NO_PIN = 18446744073709551615UL;
+  Move UNDEFINED_MOVE;
 
   /* Test cases */
   const int NUM_TEST_CASES = 3;
   const test_case testCases[NUM_TEST_CASES] = {
-    {
-      "Piece collisions",
-      "8/8/2N1n3/1P3p2/3N4/1q3b2/2R1B3/8 w - -",
-      getOffset( 'd', 4 ),
-      NO_PIN,
-      isWhiteOccupied,
-      WN
-    },
-    {
+      {
+          "Piece collisions",
+          "8/8/2N1n3/1P3p2/3N4/1q3b2/2R1B3/8 w - -",
+          getOffset( 'd', 4 ),
+          NO_PIN,
+          isWhiteOccupied,
+          WN
+      },
+      {
           "Black",
           "8/8/2N1n3/1P3p2/3n4/1q3b2/2R1B3/8 w - -",
           getOffset( 'd', 4 ),
@@ -435,23 +416,23 @@ bool testGetLegalKnightMoves() {
           isBlackOccupied,
           BN
       },
-    {
-        "Pin",
-        "8/b7/2N1n3/1P3p2/3N4/1q3b2/2R1BK2/8 w - -",
-        getOffset( 'd', 4 ),
-        getOffset( 'a', 7 ) | getOffset( 'b', 6 ) | getOffset( 'c', 5 )
-        | getOffset( 'd', 4 ) | getOffset( 'e', 3 ),
-        isWhiteOccupied,
-        WN
-    }
+      {
+          "Pin",
+          "8/b7/2N1n3/1P3p2/3N4/1q3b2/2R1BK2/8 w - -",
+          getOffset( 'd', 4 ),
+          getOffset( 'a', 7 ) | getOffset( 'b', 6 ) | getOffset( 'c', 5 )
+          | getOffset( 'd', 4 ) | getOffset( 'e', 3 ),
+          isWhiteOccupied,
+          WN
+      }
   };
 
   /* Local variables */
   int pos;
   offset_t offset;
   GameState *gameState;
-  MovePtr legalMoves[ 9 ];
-  MovePtr *iterator;
+  Move legalMoves[9];
+  Move *iterator;
   int itr;
   int count;
 
@@ -465,44 +446,41 @@ bool testGetLegalKnightMoves() {
   offset = 1UL;
   gameState = new GameState();
   set( gameState->board, offset, WK );
-  for( int i = 0; i < 9; i++ ) {
-    legalMoves[ i ] = NULL;
+  for ( int i = 0; i < 9; i++ ) {
+    legalMoves[ i ] = UNDEFINED_MOVE;
   }
   iterator = legalMoves;
   count = 0;
 
-  while( pos < 64 ) {
+  while ( pos < 64 ) {
 
     /* Print Board */
     cout << gameState->board << endl;
 
     /* Call function under test */
     getLegalKnightMoves(
-      gameState->board,
-      offset,
-      iterator,
-      NO_PIN,
-      isWhiteOccupied,
-      WK
+        gameState->board,
+        offset,
+        iterator,
+        NO_PIN,
+        isWhiteOccupied,
+        WK
     );
 
     /* Print legal moves */
     cout << "Legal moves: " << "{\n";
     itr = 0;
-    while ( legalMoves[ itr ] != NULL ) {
-      cout << "\t" << ( *legalMoves[ itr ] ) << endl;
+    while ( legalMoves[ itr ].piece != NOTHING ) {
+      cout << "\t" << legalMoves[ itr ] << endl;
 
       itr++;
       count++;
     }
     cout << "} count: " << count << endl << endl;
 
-    /* Dealloc dynamic memory */
+    /* Reset array */
     for ( int i = 0; i < 9; ++i ) {
-      if( legalMoves[ i ] != NULL ) {
-        delete( legalMoves[ i ] );
-        legalMoves[ i ] = NULL;
-      }
+      legalMoves[ i ] = UNDEFINED_MOVE;
     }
     iterator = legalMoves;
 
@@ -512,7 +490,7 @@ bool testGetLegalKnightMoves() {
     offset = offset << 1;
     count = 0;
   }
-  delete( gameState );
+  delete ( gameState );
 
   /* For each test case */
   for ( int tc = 0; tc < NUM_TEST_CASES; tc++ ) {
@@ -526,19 +504,19 @@ bool testGetLegalKnightMoves() {
 
     /* Call function under test */
     getLegalKnightMoves(
-      gameState->board,
-      testCases[ tc ].pos_offset,
-      iterator,
-      testCases[ tc ].pin,
-      testCases[ tc ].occupied_func,
-      testCases[ tc ].piece
+        gameState->board,
+        testCases[ tc ].pos_offset,
+        iterator,
+        testCases[ tc ].pin,
+        testCases[ tc ].occupied_func,
+        testCases[ tc ].piece
     );
 
     /* Print all resulting moves */
     cout << "Legal moves: " << "{\n";
     itr = 0;
-    while ( legalMoves[ itr ] != NULL ) {
-      cout << "\t" << ( *legalMoves[ itr ] ) << endl;
+    while ( legalMoves[ itr ].piece != NOTHING ) {
+      cout << "\t" << legalMoves[ itr ] << endl;
 
       itr++;
     }
@@ -547,14 +525,7 @@ bool testGetLegalKnightMoves() {
     /* Deallocate dynamic memory */
     delete ( gameState );
     for ( int i = 0; i < 5; i++ ) {
-
-      if ( legalMoves[ i ] == NULL ) {
-        continue;
-      }
-
-      delete ( legalMoves[ i ] );
-      legalMoves[ i ] = NULL;
-
+      legalMoves[ i ] = UNDEFINED_MOVE;
     }
     iterator = legalMoves;
 

@@ -64,7 +64,7 @@ const char *const PIECE_NAME_LOOKUP_TABLE[] =
         "Black King",
         "Black Queen",
         "Black Bishop",
-        "Black Night",
+        "Black Knight",
         "Black Rook",
         "Black Pawn",
         "Nothing"

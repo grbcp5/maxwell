@@ -389,8 +389,7 @@ bool testGetLegalKnightMoves() {
       const char *fen_string;
       offset_t pos_offset;
       offset_t pin;
-      is_occupied_func_t occupied_func;
-      piece_t piece;
+      color_t knight_color;
   } test_case;
 
   /* Constants */
@@ -405,16 +404,14 @@ bool testGetLegalKnightMoves() {
           "8/8/2N1n3/1P3p2/3N4/1q3b2/2R1B3/8 w - -",
           getOffset( 'd', 4 ),
           NO_PIN,
-          isWhiteOccupied,
-          WN
+          WHITE
       },
       {
           "Black",
           "8/8/2N1n3/1P3p2/3n4/1q3b2/2R1B3/8 w - -",
           getOffset( 'd', 4 ),
           NO_PIN,
-          isBlackOccupied,
-          BN
+          BLACK
       },
       {
           "Pin",
@@ -422,8 +419,7 @@ bool testGetLegalKnightMoves() {
           getOffset( 'd', 4 ),
           getOffset( 'a', 7 ) | getOffset( 'b', 6 ) | getOffset( 'c', 5 )
           | getOffset( 'd', 4 ) | getOffset( 'e', 3 ),
-          isWhiteOccupied,
-          WN
+          WHITE
       }
   };
 
@@ -458,13 +454,11 @@ bool testGetLegalKnightMoves() {
     cout << gameState->board << endl;
 
     /* Call function under test */
-    getLegalKnightMoves(
+    getLegalWhiteKnightMoves(
         gameState->board,
         offset,
         iterator,
-        NO_PIN,
-        isWhiteOccupied,
-        WK
+        NO_PIN
     );
 
     /* Print legal moves */
@@ -503,14 +497,21 @@ bool testGetLegalKnightMoves() {
     cout << gameState->board << endl;
 
     /* Call function under test */
-    getLegalKnightMoves(
-        gameState->board,
-        testCases[ tc ].pos_offset,
-        iterator,
-        testCases[ tc ].pin,
-        testCases[ tc ].occupied_func,
-        testCases[ tc ].piece
-    );
+    if( testCases[ tc ].knight_color == WHITE ) {
+      getLegalWhiteKnightMoves(
+          gameState->board,
+          testCases[ tc ].pos_offset,
+          iterator,
+          testCases[ tc ].pin
+      );
+    } else {
+      getLegalBlackKnightMoves(
+          gameState->board,
+          testCases[ tc ].pos_offset,
+          iterator,
+          testCases[ tc ].pin
+      );
+    }
 
     /* Print all resulting moves */
     cout << "Legal moves: " << "{\n";

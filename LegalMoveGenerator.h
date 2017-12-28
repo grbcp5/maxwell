@@ -82,6 +82,12 @@ typedef bool (*is_occupied_func_t)( const bitboard &, const offset_t );
 #define knightJump7( offset_t ) ( offset_t >> 10 )
 #define knightJump8( offset_t ) ( offset_t >> 17 )
 
+#define getLegalWhiteKnightMoves( bitboard, from, array, pin ) \
+(getLegalKnightMoves( bitboard, from, array, pin, isWhiteOccupied, WN ))
+
+#define getLegalBlackKnightMoves( bitboard, from, array, pin ) \
+(getLegalKnightMoves( bitboard, from, array, pin, isBlackOccupied, BN ))
+
 /* Function Declarations ******************************************************/
 
 std::ostream &operator<<( std::ostream &outputStream, const Move &move );

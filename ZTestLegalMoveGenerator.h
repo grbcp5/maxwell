@@ -11,5 +11,6 @@ bool testGetLegalWhitePawnMoves();
 
 bool testGetLegalBlackPawnMoves();
 
+bool testGetLegalKnightMoves();
 
 #endif //MAXWELL_ZTESTLEGALMOVEGENERATOR_H

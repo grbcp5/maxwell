@@ -222,3 +222,204 @@ Error getLegalBlackPawnMoves(
   return ERR_NO_ERR;
 
 }
+
+Error getLegalKnightMoves(
+    const bitboard &board,
+    const offset_t from,
+    MovePtr *&array,
+    const offset_t eligible_Squares,
+    is_occupied_func_t is_occupied,
+    const piece_t piece
+) {
+
+/* Macros */
+
+#define addIfValid( to )                     \
+  potential_to = to;                                \
+  if ( ( !is_occupied( board, potential_to )        \
+          && eligible_Squares & potential_to ) ) {  \
+    *array = new Move( piece, from, potential_to ); \
+    array++;                                        \
+  }
+
+  /* Local variables */
+  offset_t potential_to;
+
+  if ( from & KNIGHT_ZONE_0 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_1 ) {
+
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+
+  } else if ( from & KNIGHT_ZONE_2 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_3 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_4 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_5 ) {
+
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+
+  } else if ( from & KNIGHT_ZONE_6 ) {
+
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_7 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_8 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+
+  } else if ( from & KNIGHT_ZONE_9 ) {
+
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+
+  } else if ( from & KNIGHT_ZONE_10 ) {
+
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+
+  } else if ( from & KNIGHT_ZONE_11 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_12 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_13 ) {
+
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+
+  } else if ( from & KNIGHT_ZONE_14 ) {
+
+    addIfValid( knightJump4( from ));
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+
+  } else if ( from & KNIGHT_ZONE_15 ) {
+
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+
+  } else if ( from & KNIGHT_ZONE_16 ) {
+
+    addIfValid( knightJump6( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_17 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_18 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_19 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+
+  } else if ( from & KNIGHT_ZONE_20 ) {
+
+    addIfValid( knightJump2( from ));
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+
+  } else if ( from & KNIGHT_ZONE_21 ) {
+
+    addIfValid( knightJump3( from ));
+    addIfValid( knightJump4( from ));
+
+  } else if ( from & KNIGHT_ZONE_22 ) {
+
+    addIfValid( knightJump5( from ));
+    addIfValid( knightJump6( from ));
+
+  } else if ( from & KNIGHT_ZONE_23 ) {
+
+    addIfValid( knightJump7( from ));
+    addIfValid( knightJump8( from ));
+
+  } else if ( from & KNIGHT_ZONE_24 ) {
+
+    addIfValid( knightJump1( from ));
+    addIfValid( knightJump2( from ));
+
+  }
+
+#undef addIfValid
+
+  return ERR_NO_ERR;
+
+}

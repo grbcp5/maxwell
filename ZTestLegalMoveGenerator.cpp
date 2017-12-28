@@ -26,7 +26,8 @@ bool legalMoveGeneratorSuite() {
   cout << "\n----- Legal Move Generator Tests ---\n" << endl;
 
   return testGetLegalWhitePawnMoves()
-      && testGetLegalBlackPawnMoves();
+      && testGetLegalBlackPawnMoves()
+      && testGetLegalKnightMoves();
 
 }
 
@@ -397,4 +398,167 @@ bool testGetLegalBlackPawnMoves() {
 
   return true;
 
+}
+
+
+bool testGetLegalKnightMoves() {
+
+  /* Types */
+  typedef struct {
+      const char *description;
+      const char *fen_string;
+      offset_t pos_offset;
+      offset_t pin;
+      is_occupied_func_t occupied_func;
+      piece_t piece;
+  } test_case;
+
+  /* Constants */
+  const offset_t NO_PIN = 18446744073709551615UL;
+
+  /* Test cases */
+  const int NUM_TEST_CASES = 3;
+  const test_case testCases[NUM_TEST_CASES] = {
+    {
+      "Piece collisions",
+      "8/8/2N1n3/1P3p2/3N4/1q3b2/2R1B3/8 w - -",
+      getOffset( 'd', 4 ),
+      NO_PIN,
+      isWhiteOccupied,
+      WN
+    },
+    {
+          "Black",
+          "8/8/2N1n3/1P3p2/3n4/1q3b2/2R1B3/8 w - -",
+          getOffset( 'd', 4 ),
+          NO_PIN,
+          isBlackOccupied,
+          BN
+      },
+    {
+        "Pin",
+        "8/b7/2N1n3/1P3p2/3N4/1q3b2/2R1BK2/8 w - -",
+        getOffset( 'd', 4 ),
+        getOffset( 'a', 7 ) | getOffset( 'b', 6 ) | getOffset( 'c', 5 )
+        | getOffset( 'd', 4 ) | getOffset( 'e', 3 ),
+        isWhiteOccupied,
+        WN
+    }
+  };
+
+  /* Local variables */
+  int pos;
+  offset_t offset;
+  GameState *gameState;
+  MovePtr legalMoves[ 9 ];
+  MovePtr *iterator;
+  int itr;
+  int count;
+
+  /* Announce test */
+  cout << "\n------------------------------------------------------";
+  cout << "\n---------- Test Legal Knight Move Generator ----------";
+  cout << "\n------------------------------------------------------\n" << endl;
+
+  /* Initialize */
+  pos = 0;
+  offset = 1UL;
+  gameState = new GameState();
+  set( gameState->board, offset, WK );
+  for( int i = 0; i < 9; i++ ) {
+    legalMoves[ i ] = NULL;
+  }
+  iterator = legalMoves;
+  count = 0;
+
+  while( pos < 64 ) {
+
+    /* Print Board */
+    cout << gameState->board << endl;
+
+    /* Call function under test */
+    getLegalKnightMoves(
+      gameState->board,
+      offset,
+      iterator,
+      NO_PIN,
+      isWhiteOccupied,
+      WK
+    );
+
+    /* Print legal moves */
+    cout << "Legal moves: " << "{\n";
+    itr = 0;
+    while ( legalMoves[ itr ] != NULL ) {
+      cout << "\t" << ( *legalMoves[ itr ] ) << endl;
+
+      itr++;
+      count++;
+    }
+    cout << "} count: " << count << endl << endl;
+
+    /* Dealloc dynamic memory */
+    for ( int i = 0; i < 9; ++i ) {
+      if( legalMoves[ i ] != NULL ) {
+        delete( legalMoves[ i ] );
+        legalMoves[ i ] = NULL;
+      }
+    }
+    iterator = legalMoves;
+
+    /* Update Loop Variables */
+    pos++;
+    move( gameState->board, WK, offset, offset << 1 );
+    offset = offset << 1;
+    count = 0;
+  }
+  delete( gameState );
+
+  /* For each test case */
+  for ( int tc = 0; tc < NUM_TEST_CASES; tc++ ) {
+
+    /* Print out description  */
+    cout << "Test " << tc + 1 << ": " << testCases[ tc ].description << endl;
+
+    /* Print board state */
+    gameState = createBoard( testCases[ tc ].fen_string );
+    cout << gameState->board << endl;
+
+    /* Call function under test */
+    getLegalKnightMoves(
+      gameState->board,
+      testCases[ tc ].pos_offset,
+      iterator,
+      testCases[ tc ].pin,
+      testCases[ tc ].occupied_func,
+      testCases[ tc ].piece
+    );
+
+    /* Print all resulting moves */
+    cout << "Legal moves: " << "{\n";
+    itr = 0;
+    while ( legalMoves[ itr ] != NULL ) {
+      cout << "\t" << ( *legalMoves[ itr ] ) << endl;
+
+      itr++;
+    }
+    cout << "}\n" << endl;
+
+    /* Deallocate dynamic memory */
+    delete ( gameState );
+    for ( int i = 0; i < 5; i++ ) {
+
+      if ( legalMoves[ i ] == NULL ) {
+        continue;
+      }
+
+      delete ( legalMoves[ i ] );
+      legalMoves[ i ] = NULL;
+
+    }
+    iterator = legalMoves;
+
+  }
+
+  return true;
 }
